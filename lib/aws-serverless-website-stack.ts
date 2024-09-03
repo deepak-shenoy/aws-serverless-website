@@ -20,6 +20,9 @@ export class AwsServerlessWebsiteStack extends cdk.Stack {
     //
     // Cloudfront distribution
     //
+    const certificateID = process.env["STATIC_WEB_CERT_ID"]|| 'not-defined';
+    const certAliasName = process.env["STATIC_WEB_ALIAS"]|| 'not-defined';
+
     const staticWebDistribution = new cloudfront.CloudFrontWebDistribution(this, 'MyDistribution', {
       originConfigs: [
         {
@@ -29,6 +32,16 @@ export class AwsServerlessWebsiteStack extends cdk.Stack {
           behaviors : [ {isDefaultBehavior: true}],
         },
       ],
+      // For now, manually creating certificate
+      viewerCertificate: cloudfront.ViewerCertificate.fromIamCertificate(
+          certificateID,
+          {
+            aliases: [certAliasName],
+            securityPolicy: cloudfront.SecurityPolicyProtocol.SSL_V3, // default
+            sslMethod: cloudfront.SSLMethod.SNI, // default
+          },
+      ),
+      viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     });
   }
 }
