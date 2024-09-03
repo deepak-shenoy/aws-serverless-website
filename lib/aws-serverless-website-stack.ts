@@ -43,11 +43,15 @@ export class AwsServerlessWebsiteStack extends cdk.Stack {
     const certAliasName = process.env["STATIC_WEB_ALIAS"]|| 'not-defined';
     const certificateARN = process.env["STATIC_WEB_CERT_ARN"]|| 'not-defined';
 
+    const originAccessIdentity = new cloudfront.OriginAccessIdentity(this, 'OAI');
+    staticWebContentBucket.grantRead(originAccessIdentity);
+
     const staticWebDistribution = new cloudfront.CloudFrontWebDistribution(this, 'StaticDist', {
       originConfigs: [
         {
           s3OriginSource: {
             s3BucketSource: staticWebContentBucket,
+            originAccessIdentity: originAccessIdentity,
           },
           behaviors : [ {isDefaultBehavior: true}],
         },
