@@ -7,7 +7,7 @@
 #
 
 # Please setup environmental variables
-#     STATIC_WEB_CONTENT_BUCKET       - Name of bucket where web content will be stored
+#     STATIC_WEB_CONTENT_BUCKET        - Name of bucket where web content will be stored
 
 # Called from IntelliJ
 cdk deploy
