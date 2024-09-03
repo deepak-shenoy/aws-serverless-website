@@ -61,7 +61,7 @@ export class AwsServerlessWebsiteStack extends cdk.Stack {
           minimumProtocolVersion: 'TLSv1.2_2021',
         }
       },
-      viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.HTTPS_ONLY,
+      viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
     });
   }
 }
