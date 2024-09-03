@@ -1,3 +1,12 @@
+/*
+ * Serverless Website Script
+ * Deepak Shenoy
+ * September 2nd, 2024
+ *
+ * Certificate and DNS entries are manually created
+ * For security and privacy, manual artifacts are specified as
+ * environmental variables to be used in the script.
+ */
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as s3 from "aws-cdk-lib/aws-s3";
