@@ -11,6 +11,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as s3 from "aws-cdk-lib/aws-s3";
 import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
+import * as s3_content_deployment from "aws-cdk-lib/aws-s3-deployment";
 
 export class AwsServerlessWebsiteStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -24,6 +25,15 @@ export class AwsServerlessWebsiteStack extends cdk.Stack {
       bucketName: staticWebContentBucketName,
       publicReadAccess: false,
       removalPolicy: cdk.RemovalPolicy.DESTROY
+    });
+
+    //
+    // Deploy static web content
+    //
+    const staticDestinationBucket = new s3.Bucket(this, staticWebContentBucketName);
+    const staticWebContentDeployment = new s3_content_deployment.BucketDeployment(this, 'Deployment', {
+      sources: [s3_content_deployment.Source.asset('./artifacts/static-web/index.html')],
+      destinationBucket: staticDestinationBucket,
     });
 
     //
