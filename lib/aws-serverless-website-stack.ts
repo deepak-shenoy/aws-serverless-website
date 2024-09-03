@@ -37,11 +37,10 @@ export class AwsServerlessWebsiteStack extends cdk.Stack {
           certificateID,
           {
             aliases: [certAliasName],
-            securityPolicy: cloudfront.SecurityPolicyProtocol.SSL_V3, // default
-            sslMethod: cloudfront.SSLMethod.SNI, // default
+            securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021, // default
           },
       ),
-      viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+      viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.HTTPS_ONLY,
     });
   }
 }
