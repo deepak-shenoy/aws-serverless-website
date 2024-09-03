@@ -22,6 +22,7 @@ export class AwsServerlessWebsiteStack extends cdk.Stack {
     //
     const certificateID = process.env["STATIC_WEB_CERT_ID"]|| 'not-defined';
     const certAliasName = process.env["STATIC_WEB_ALIAS"]|| 'not-defined';
+    const certificateARN = process.env["STATIC_WEB_CERT_ARN"]|| 'not-defined';
 
     const staticWebDistribution = new cloudfront.CloudFrontWebDistribution(this, 'StaticDist', {
       originConfigs: [
@@ -32,15 +33,15 @@ export class AwsServerlessWebsiteStack extends cdk.Stack {
           behaviors : [ {isDefaultBehavior: true}],
         },
       ],
-      // For now, manually creating certificate
-      viewerCertificate: cloudfront.ViewerCertificate.fromIamCertificate(
-          certificateID,
-          {
-            aliases: [certAliasName],
-            securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021, // default
-            sslMethod: cloudfront.SSLMethod.SNI, // default
-          },
-      ),
+      // For now, manually creating certificate (specified ARN)
+      viewerCertificate: {
+        aliases: [certAliasName],
+        props: {
+          acmCertificateArn: certificateARN,
+          sslSupportMethod: 'sni-only',
+          minimumProtocolVersion: 'TLSv1.2_2021',
+        }
+      },
       viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.HTTPS_ONLY,
     });
   }
