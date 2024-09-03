@@ -18,9 +18,17 @@ export class AwsServerlessWebsiteStack extends cdk.Stack {
     });
 
     //
+    // Cloudfront distribution
     //
-    //
-    const oai = new cloudfront.OriginAccessIdentity(this, 'OAI');
-
+    const staticWebDistribution = new cloudfront.CloudFrontWebDistribution(this, 'MyDistribution', {
+      originConfigs: [
+        {
+          s3OriginSource: {
+            s3BucketSource: staticWebContentBucket,
+          },
+          behaviors : [ {isDefaultBehavior: true}],
+        },
+      ],
+    });
   }
 }
