@@ -23,7 +23,7 @@ export class AwsServerlessWebsiteStack extends cdk.Stack {
     const certificateID = process.env["STATIC_WEB_CERT_ID"]|| 'not-defined';
     const certAliasName = process.env["STATIC_WEB_ALIAS"]|| 'not-defined';
 
-    const staticWebDistribution = new cloudfront.CloudFrontWebDistribution(this, 'MyDistribution', {
+    const staticWebDistribution = new cloudfront.CloudFrontWebDistribution(this, 'StaticDist', {
       originConfigs: [
         {
           s3OriginSource: {
@@ -38,6 +38,7 @@ export class AwsServerlessWebsiteStack extends cdk.Stack {
           {
             aliases: [certAliasName],
             securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021, // default
+            sslMethod: cloudfront.SSLMethod.SNI, // default
           },
       ),
       viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.HTTPS_ONLY,
