@@ -6,6 +6,9 @@ export class AwsServerlessWebsiteStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    //
+    // Bucket for static content
+    //
     const staticWebContentBucket = process.env["STATIC_WEB_CONTENT_BUCKET"]|| 'not-defined';
     new s3.Bucket(this, staticWebContentBucket, {
       bucketName: staticWebContentBucket,
