@@ -30,9 +30,9 @@ export class AwsServerlessWebsiteStack extends cdk.Stack {
     //
     // Deploy static web content
     //
-    const staticDestinationBucket = new s3.Bucket(this, staticWebContentBucketName);
+    const staticDestinationBucket = staticWebContentBucket;
     const staticWebContentDeployment = new s3_content_deployment.BucketDeployment(this, 'Deployment', {
-      sources: [s3_content_deployment.Source.asset('./artifacts/static-web/index.html')],
+      sources: [s3_content_deployment.Source.asset('./artifacts/static-web')],
       destinationBucket: staticDestinationBucket,
     });
 
